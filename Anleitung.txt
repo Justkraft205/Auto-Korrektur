@@ -1,11 +1,12 @@
-1. Wenn du die Python Datei ausgeführt hast kommt das:"Dein Text zum Korrigirern:". Gebe jetzt deinen Text mit Reschreibfehlern ein
-2.Wenn du deinen Text eingegeben hast und Enter gerdückst hast. Wenn er falsche Wörter Gefunden hat kommt das z.b.:
+1.Lade dir den Kompletten Ordner "important" herunter. Lasse beide dateien im Selben Ordner.
+2. Wenn du die Python Datei ausgeführt hast kommt das:"Dein Text zum Korrigirern:". Gebe jetzt deinen Text zum Korriegiren ein.
+3.Wenn du deinen Text eingegeben hast und Enter drückst dann, kommt das :
 Falsch Geschribenes Wort ist:Halo
 Ersatz Wort1:Hallo
 Ersaz Wort2:
 Ersatz Wort3:
 Welches wollen sie wählen. 4 ist üebrspringen:
 Welches wort ist das richtige:(1,2,3,4)
-3. Jetzt kannst du mit den Zahlen von 1-4 Welches Wort das Wort ist was du meinst. Oder mit 4 kannst du üperspringen und kommst zum Nächsten
-4.Wenn du jetzt z.b das 1 Wort ausgewählt hast. Kommst du direkt zum Nächsten oder wenn er alle Bearbeitet hat endet er Automatisch.
-5. Am ende signalisiert er mit dem Wort Fertig das er Fertig ist und über dem Text fertig steht dein Korrigierter Text
+4. Jetzt kannst du mit den Zahlen von 1-4 sagen welches Wort das richtige ist. Das Falsche Wort wird auch Nochmal angezeigt.
+5.Wenn du jetzt z.b das "Ersatz Wort1" auswählts wird das Falsche Wort durch dein ausgewähltes ersetzt. Jetzt geht er automatisch zum Nächsten Falsch geschriebenen Wort.
+6. Am ende signalisiert er mit dem Wort "Fertig" das er Fertig ist und über dem Text "Fertig" steht dein fertiger Korrigierter Text.

@@ -1,12 +1,13 @@
 1.Lade dir den Kompletten Ordner "important" herunter. Lasse beide dateien im Selben Ordner.
-2. Wenn du die Python Datei ausgeführt hast kommt das:"Dein Text zum Korrigirern:". Gebe jetzt deinen Text zum Korriegiren ein.
-3.Wenn du deinen Text eingegeben hast und Enter drückst dann, kommt das :
+2. Wenn du die Python Datei ausführt kommt wirst du das in der Konsole sehen:"Dein Text zum Korrigirern:". Gebe jetzt deinen Text zum Korriegiren ein.
+3.Wenn du deinen Text eingegeben hast und Enter drückst dann wird das kommen. In meinem Beispiel mit dem Wort "Hallo":
 Falsch Geschribenes Wort ist:Halo
 Ersatz Wort1:Hallo
 Ersaz Wort2:
 Ersatz Wort3:
 Welches wollen sie wählen. 4 ist üebrspringen:
 Welches wort ist das richtige:(1,2,3,4)
-4. Jetzt kannst du mit den Zahlen von 1-4 sagen welches Wort das richtige ist. Das Falsche Wort wird auch Nochmal angezeigt.
-5.Wenn du jetzt z.b das "Ersatz Wort1" auswählts wird das Falsche Wort durch dein ausgewähltes ersetzt. Jetzt geht er automatisch zum Nächsten Falsch geschriebenen Wort.
-6. Am ende signalisiert er mit dem Wort "Fertig" das er Fertig ist und über dem Text "Fertig" steht dein fertiger Korrigierter Text.
+4. Jetzt wird als erstes das Falsch Geschribene Wort ausgegeben. Danach siehst du 3 Vorschläge für das Wort was du meinen könntest. Jetzt kannst du mit den Ziffern 1-3 auswählen
+welches Wort du meinst. Mit der Zahl 4 kannst du das einfach überspringen
+5.Wenn du jetzt z.b das "Ersatz Wort1" auswählts (also mit der Ziffer 1) wird das Falsche Wort durch dein ausgewähltes ersetzt. Jetzt geht er automatisch zum Nächsten Falsch geschriebenen Wort.
+6. Am ende wird dein richtiger Text ausgegen und er signalisiert dir mit dem Wort "Fertig" das er Fertig ist.

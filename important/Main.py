@@ -8,7 +8,6 @@ var1 = var2 = var3 = wort23 = ""
 
 def check():
     global line23, wort_nummer, lines, wort23
-    print(f"Erstes Wort:{wort_nummer}, ist:{wort23}")
     ta = True
     # Text in Wörter aufteilen
     wörter = eingabe.split()

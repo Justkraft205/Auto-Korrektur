@@ -109,7 +109,6 @@ def gemeinsame_buchstaben_count():
                 ready = 1
         else:
             line23 += 1  # Gehe zur nächsten Zeile
-            print(f"line23:{line23}, buchstaben1:{buchstaben1}, buchstaben2:{buchstaben2}")
         ready = 0
         if line23 >= len(lines):
             wort_nummer += 1

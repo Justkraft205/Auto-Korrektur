@@ -1,4 +1,4 @@
-Dies ist eine Deutsche Autokorekktur komplett ofline( wenn du es einmal Heruntergeladen hast).
+Dies ist eine Deutsche Autokorekktur komplett ofline( wenn du es einmal Heruntergeladen hast). Es wird Python3 benötigt.
 Features:
 
 

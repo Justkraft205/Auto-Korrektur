@@ -1,3 +1,4 @@
+Anleitung zum Auto- Korrektur code(Main.py):
 1.Lade dir den Kompletten Ordner "important" herunter. Lasse beide dateien im Selben Ordner.
 2. Wenn du die Python Datei ausführt kommt wirst du das in der Konsole sehen:"Dein Text zum Korrigirern:". Gebe jetzt deinen Text zum Korriegiren ein.
 3.Wenn du deinen Text eingegeben hast und Enter drückst dann wird das kommen. In meinem Beispiel mit dem Wort "Hallo":
@@ -11,3 +12,9 @@ Welches wort ist das richtige:(1,2,3,4)
 welches Wort du meinst. Mit der Zahl 4 kannst du das einfach überspringen
 5.Wenn du jetzt z.b das "Ersatz Wort1" auswählts (also mit der Ziffer 1) wird das Falsche Wort durch dein ausgewähltes ersetzt. Jetzt geht er automatisch zum Nächsten Falsch geschriebenen Wort.
 6. Am ende wird dein richtiger Text ausgegen und er signalisiert dir mit dem Wort "Fertig" das er Fertig ist.
+
+
+Anleitung zum Lerncode (Lerncode.py):
+1. Lade dir den Lerncode herunter und schiebe ihn in den selben ordner wie die datei "datei.txt"
+2. Führe ihn aus jetzt kannst du Wörter oder Texte die du in deinem Datenpaket vermisst einfach selber hinzufügen. Wenn du verschiedene Wörter selber hinzufügst müssen sie durch ein Leerzeichen voneinander getrennt sein.
+Wenn du Sätze einfügst alle sonderzeichen(",",".",";" und so weiter) entfernt er Automatisch.

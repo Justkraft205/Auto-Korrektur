@@ -7,4 +7,4 @@ Features:
   -Open-Source
   -100% Python
 
-Für eine Anleitung schau dir mal die Anleizungs datei an
+Für eine Anleitung schau dir mal die datei anleitung.txt an

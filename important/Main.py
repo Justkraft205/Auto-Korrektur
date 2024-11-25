@@ -1,13 +1,14 @@
 import string
 import sys
-
 # Initiale Variablen
-line23 = buchstaben3 = buchstaben4 = anzahl = zei = var4 = graja = grana = ready = wort_nummer = zur = falsch = korrekt = 0
+line23 = buchstaben3 = buchstaben4 = anzahl = zei = var4 = graja = grana = ready = zur = falsch = korrekt = 0
+wort_nummer = 0
 wort60 = 1
 var1 = var2 = var3 = wort23 = ""
 
 def check():
     global line23, wort_nummer, lines, wort23
+    print(f"Erstes Wort:{wort_nummer}, ist:{wort23}")
     ta = True
     # Text in Wörter aufteilen
     wörter = eingabe.split()
@@ -26,7 +27,7 @@ def check():
         wort23 = wort23.replace(")", "")
         with open("datei.txt", "r") as file:
             lines = file.readlines()
-        if line23 < len(lines):
+        if (line23 + 1) < len(lines):
             if wort23 == lines[line23].strip():
                 line23 = 0
                 wort_nummer += 1
@@ -38,6 +39,7 @@ def check():
             line23 = 0
             gemeinsame_buchstaben_count()
             ta = False
+        print(f"Wort23:{wort23}, lines:{lines[line23].strip()}, lines:{len(lines)}, line23:{(line23 + 1)} ")
         line23 += 1
 
 def vorcheck():
@@ -99,19 +101,21 @@ def gemeinsame_buchstaben_count():
                 elif var4 == 2:
                     var3 = string1
                     var4 += 1
+                zei += 1
+                line23 += 1
+                ready = 1
             else:
                 line23 += 1
                 ready = 1
         else:
             line23 += 1  # Gehe zur nächsten Zeile
+            print(f"line23:{line23}, buchstaben1:{buchstaben1}, buchstaben2:{buchstaben2}")
         ready = 0
         if line23 >= len(lines):
-            #print("ende")
             wort_nummer += 1
             ta2 = False
             abfrage()
         if zei == 3:
-            #print("ende2")
             ta2 = False
             abfrage()
 

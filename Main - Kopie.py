@@ -8,7 +8,7 @@ wort60 = 1
 var1 = var2 = var3 = wort23 = ""
 
 def check():
-    global line23, wort_nummer, lines, wort23
+    global line23, wort_nummer, lines, wort23, anzahl_wörter
     ta = True
     # Text in Wörter aufteilen
     wörter = eingabe.split()
@@ -48,7 +48,8 @@ def vorcheck():
 
 def gemeinsame_buchstaben_count():
     global line23, wort23, zei, wort_nummer, var1, var2, var3, var4, string1, graja, grana, ready
-    line23 = 0
+    #line23 = 0
+    print(f"line23:{line23}")
     ta2 = True
     while ta2:
         string1 = lines[line23].strip()
@@ -64,8 +65,8 @@ def gemeinsame_buchstaben_count():
         buchstaben4 -=1
         buchstaben3 +=1
         if gemeinsamkeitsanteil >= 0.8:
+            print(f"buchstaben1:{len(buchstaben1)}, buchstaben2:{len(buchstaben2)}, gemeinsam:{gemeinsamkeitsanteil}, wort23:{lines[line23].strip()}")
             if anzahl_woerter2 == buchstaben3:
-               # print(f"Gefunden! 80 % oder mehr der Buchstaben sind gleich. In Line:{line23}:1")
                 if var4 == 0:
                     var1 = string1
                     var4 += 1
@@ -111,12 +112,14 @@ def gemeinsame_buchstaben_count():
             line23 += 1  # Gehe zur nächsten Zeile
         ready = 0
         if line23 >= len(lines):
-            wort_nummer += 1
+            #wort_nummer += 1
             ta2 = False
             abfrage()
         if zei == 3:
+            print("jaj")
             ta2 = False
             abfrage()
+
 def abfrag2():
     global eingabe, wort23, var1, var2, var3, var4, wort_nummer
     var4 = 0
@@ -176,7 +179,8 @@ def abfrage():
 eingabe = input("Dein Text zum Korrigirern:")
 
 def grammatik():
-    global wort23, var1, korrekt, falsch, graja, string1, grana, gramata
+    global wort23, var1, korrekt, falsch, graja, string1, grana, gramata, line23
+    print(f"var1:{var1}, var2:{var2}, var3:{var3}, line23:{line23}")
     print(f"Debug: grammatik() aufgerufen mit wort23={wort23}, var1={gramata}")
 
     anzahl_buchstaben = len(wort23)
@@ -194,28 +198,35 @@ def grammatik():
 
     print(f"Ergebnisse: korrekt={korrekt}, falsch={falsch}")
     if korrekt > falsch:
-        print("Debug: Ja")
+        #print("Debug: Ja")
         falsch  = 0
         korrekt = 0
         korrekt2()
     else:
-        print("Debug: Nein")
+        #print("Debug: Nein")
         falsch = 0
         korrekt = 0
         incorrect()
 
 def korrekt2():
     global line23
-    print("meom")
-    print(line23)
-    print("finish")
+    abfrag2()
 
 def incorrect():
-    global line23, lines
-    print("meom")
-    print(line23)
+    global line23, lines, wort_nummer, anzahl_wörter
     if line23 >= len(lines):
-        print("finish")
+        print("Fertig, keine übereinstimmung. Springt Automatisch zum Nächsten Wort")
+        if wort_nummer >= anzahl_wörter:
+            print("Fertig")
+        else:
+            line23 = 0
+            wort_nummer +=1
+            gemeinsame_buchstaben_count()
+
+        sys.exit
+    else:
+        line23 +=1
+        gemeinsame_buchstaben_count()
 
 def fertig():
     print("Fertig")

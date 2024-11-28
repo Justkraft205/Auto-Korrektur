@@ -16,14 +16,10 @@ def check():
             ta = False
             break
         wort23 = wörter[wort_nummer]
-        wort23 = wort23.replace(",", "")
-        wort23 = wort23.replace(".", "")
-        wort23 = wort23.replace("!", "")
-        wort23 = wort23.replace("?", "")
-        wort23 = wort23.replace("(", "")
-        wort23 = wort23.replace(")", "")
-        # Datei öffnen und Zeilen einlesen
-        with open("datei.txt", "r") as file:
+        # Entferne alle Satzzeichen
+        wort23 = wort23.translate(str.maketrans("", "", string.punctuation))
+        # Datei öffnen und Zeilen einlesen (im Encoding `utf-8`)
+        with open("datei.txt", "r", encoding="utf-8") as file:
             lines = file.readlines()
         # Überprüfen, ob `line23` innerhalb des Indexbereichs von `lines` liegt
         if line23 < len(lines):
@@ -38,18 +34,10 @@ def check():
             # Wenn `line23` außerhalb des Bereichs ist, füge leere Zeilen hinzu
             while len(lines) <= line23:
                 lines.append("\n")  # Leere Zeilen hinzufügen, wenn mehr Zeilen benötigt werden
-            wort23 = wörter[wort_nummer]
-            wort23 = wort23.replace(",", "")
-            wort23 = wort23.replace(".", "")
-            wort23 = wort23.replace("!", "")
-            wort23 = wort23.replace("?", "")
-            wort23 = wort23.replace("(", "")
-            wort23 = wort23.replace(";", "")
-            wort23 = wort23.replace(")", "")
-            wort23 = wort23.replace(":", "")
+            wort23 = wort23.translate(str.maketrans("", "", string.punctuation))
             # Wort in die entsprechende Zeile schreiben
             lines[line23] = wort23 + "\n"
-            with open("datei.txt", "w") as file:
+            with open("datei.txt", "w", encoding="utf-8") as file:
                 file.writelines(lines)
             print(f"Wort '{wort23}' wurde in Zeile {line23 + 1} gespeichert.")
             wort_nummer += 1

@@ -6,19 +6,20 @@ wort_nummer = 0
 gramata = ""
 wort60 = 1
 yane = 0
+var7 = 0
 mein_dict = {}
 var6  = 0
 breaken = 0
 var1 = var2 = var3 = wort23 = ""
 
 def check():
-    global line23, wort_nummer, lines, wort23, anzahl_wörter
+    global line23, wort_nummer, lines, wort23, anzahl_wörter, wörter
     ta = True
     # Text in Wörter aufteilen
     wörter = eingabe.split()
     anzahl_wörter = len(wörter)
     while ta:
-        if wort_nummer >= anzahl_wörter:
+        if wort_nummer > anzahl_wörter:
             ta = False
             print(eingabe)
             fertig()
@@ -218,67 +219,55 @@ def grammatik():
         korrekt2()
 
 def korrekt2():
-    global line23, yane, gramata, var6, zei
-    line23 = 0
-    if zei > 3:
-        abfrag2()
+    global line23, yane, gramata, var6, zei, var7
     zei = 0
     if yane == 1:
+        var7 +=1
         print(f"zei:{zei}, var6:{var6}")
-        if zei > 3:
-            fertig()
-           # break
-        if var6 == 1:
+        #if zei > 3:
+         #   fertig()
+        if var7 == 1:
             mein_dict["1"] = gramata
             print(f"var1:{var1}")
-        elif var6 == 2:
+        elif var7 == 2:
             print(f"Var2:{var2}")
             mein_dict["2"] = gramata
-        elif var6 == 3:
+        elif var7 == 3:
             print(f"Var3:{var3}")
             mein_dict["3"] = gramata
-        var6 = 0
+            finish()
     else:
         incorrect()
     incorrect()
 
 def incorrect():
-    global line23, lines, wort_nummer, anzahl_wörter, var6, variable_value, var1, var2, var3, gramata, korrekt, falsch, zei
-    if line23 >= len(lines):
-        if var6 >= 1:
-            grammatik()
+    global line23, lines, wort_nummer, anzahl_wörter, var6, variable_value, var1, var2, var3, gramata, korrekt, falsch, zei, wörter
     if var6 > 3:
-        if line23 >= len(lines):
-            print(f"Fertig, keine übereinstimmung. Springt Automatisch zum Nächsten Wort:line23:{line23}, lines:{len(lines)}")
-            print(f"meindict:{mein_dict}")
+        if line23 >= len(lines) - 1:
             if var6 > 3:
-                print("Fertig")
+                wort_nummer += 1
                 if wort_nummer >= anzahl_wörter:
                     if line23 >= len(lines):
                         abfrag2()
                     else:
-                        print("Fertig")
                         var1 = ""
                         var2 = ""
                         var3 = ""
                         gemeinsame_buchstaben_count()
                 else:
+                    print(f"SChei0e:{wort_nummer}, wlrte:{len(wörter)}")
                     line23 = 0
-                   # print("\n" * 100)
-                    wort_nummer += 1
                     gemeinsame_buchstaben_count()
         else:
             print(f"breaken:{breaken}")
             line23 += 1
+            var6 = 0
             var1 = ""
-            #var6 = 0
             var2 = ""
             var3 = ""
             gemeinsame_buchstaben_count()
     else:
-
         gramata = ""
-        var6 += 1
         print(f"var6:{var6}")
         if var6 == 1:
             print(f"var1:{var1}")
@@ -289,8 +278,12 @@ def incorrect():
         if var6 == 3:
             print(f"Var3:{var3}")
             gramata = var3
-
+        var6 += 1
         grammatik()
+
+
+def finish():
+    print()
 
 
 

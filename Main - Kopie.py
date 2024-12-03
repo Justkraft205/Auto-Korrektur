@@ -1,16 +1,10 @@
 import string
 import sys
-# Initiale Variablen
 line23 = buchstaben3 = buchstaben4 = anzahl = zei = var4 = graja = grana = ready = zur = falsch = korrekt = 0
-wort_nummer = 0
-gramata = ""
+wort_nummer = var7 = yane = var6 = breaken = 0
 wort60 = 1
-yane = 0
-var7 = 0
 mein_dict = {}
-var6  = 0
-breaken = 0
-var1 = var2 = var3 = wort23 = ""
+var1 = var2 = var3 = wort23 = gramata = ""
 
 def check():
     global line23, wort_nummer, lines, wort23, anzahl_wörter, wörter
@@ -19,7 +13,7 @@ def check():
     wörter = eingabe.split()
     anzahl_wörter = len(wörter)
     while ta:
-        if wort_nummer > anzahl_wörter:
+        if wort_nummer >= anzahl_wörter:
             ta = False
             print(eingabe)
             fertig()
@@ -44,17 +38,13 @@ def check():
             line23 = 0
             gemeinsame_buchstaben_count()
             ta = False
-       # print(f"Wort23:{wort23}, lines:{lines[line23].strip()}, lines:{len(lines)}, line23:{(line23 + 1)} ")
         line23 += 1
 
 def vorcheck():
     check()
 
-
 def gemeinsame_buchstaben_count():
     global line23, wort23, zei, wort_nummer, var1, var2, var3, var4, string1, graja, grana, ready, breaken
-    #line23 = 0
-    print(f"line23:{line23}")
     ta2 = True
     while ta2:
         string1 = lines[line23].strip()
@@ -70,7 +60,6 @@ def gemeinsame_buchstaben_count():
         buchstaben4 -=1
         buchstaben3 +=1
         if gemeinsamkeitsanteil >= 0.8:
-            print(f"buchstaben1:{len(buchstaben1)}, buchstaben2:{len(buchstaben2)}, gemeinsam:{gemeinsamkeitsanteil}, wort23:{lines[line23].strip()}")
             if anzahl_woerter2 == buchstaben3:
                 if var4 == 0:
                     var1 = string1
@@ -123,29 +112,26 @@ def gemeinsame_buchstaben_count():
             abfrage()
         if zei == 3:
             var4 = 0
-            print("jaj")
             ta2 = False
             abfrage()
 
 def abfrag2():
-    global eingabe, wort23, var1, var2, var3, var4, wort_nummer, mein_dict
+    global eingabe, wort23, var1, var2, var3, var4, wort_nummer, mein_dict, var7
     var4 = 0
     string1 = ""
+    print(f"wortnummrt:{wort_nummer}")
     print(f"Falsch Geschribenes Wort ist:{wort23}")
     print(f"Ersatz Wörter:{mein_dict}")
     print("Welches wollen sie wählen. 4 ist üebrspringen:")
     einn = input("Welches wort ist das richtige:(1,2,3,4)")
     if einn == "1":
-        print(f"Es wird ersetzt, wort23:{wort23}, var1,{var1}")
-        print(var1)
         var1 = mein_dict["1"]
         eingabe = eingabe.replace(wort23,var1)
         var1 = ""
         print("\n" * 100)
-        var2 = ""
-        var3 = ""
-        var4 = 0
-        wort_nummer += 1
+        var2 = var3= ""
+        var7 = var4 = line23 = 0
+        mein_dict = {}
         check()
     elif einn == "2":
         print("Es wird ersetzt")
@@ -154,9 +140,11 @@ def abfrag2():
         var1 = ""
         Var2 = ""
         var3 = ""
+        var7 = 0
         var4 = 0
+        line23 = 0
         print("\n" * 100)
-        wort_nummer += 1
+        mein_dict = {}
         check()
     elif einn == "3":
         print("Es wird ersetzt")
@@ -166,45 +154,39 @@ def abfrag2():
         Var2 = ""
         var3 = ""
         var4 = 0
+        var7 = 0
+        line23 = 0
         print("\n" * 100)
-        wort_nummer += 1
+        mein_dict = {}
         check()
     elif einn == "4":
         var1 = ""
         Var2 = ""
         var3 = ""
         print("\n" * 100)
+        mein_dict = {}
         var4 = 0
-        wort_nummer += 1
         check()
 
 def abfrage():
     global wort23, gramata, line23
     gramata = var1
-    print(f"linus23:{line23}")
     incorrect()
-
-eingabe = input("Dein Text zum Korrigirern:")
 
 def grammatik():
     global wort23, korrekt, falsch, graja, string1, grana, gramata, line23, yane
     yane = 0
-    print(f"var1:{var1}, var2:{var2}, var3:{var3}, line23:{line23}")
-    print(f"Debug: grammatik() aufgerufen mit wort23={wort23}, gramata={gramata}")
-
+    #print(f"var1:{var1}, var2:{var2}, var3:{var3}, line23:{line23}")
+    #print(f"Debug: grammatik() aufgerufen mit wort23={wort23}, gramata={gramata}")
     anzahl_buchstaben = len(wort23)
     anzahl_buchstaben6 = len(gramata)
-    #print(f"buchstaben: {anzahl_buchstaben}, anzhal6: {anzahl_buchstaben6}")
-
     for zur in range(min(anzahl_buchstaben, anzahl_buchstaben6)):
         buchstaben = wort23[zur]
         buchstaben6 = gramata[zur]
-       # print(f"buchstaben: {buchstaben}, buchstaben6: {buchstaben6}")
         if buchstaben == buchstaben6:
             korrekt += 1
         else:
             falsch += 1
-    print(f"Ergebnisse: korrekt={korrekt}, falsch={falsch}")
     if korrekt > falsch:
         #print("Debug: Ja")
         yane = 1
@@ -223,19 +205,12 @@ def korrekt2():
     zei = 0
     if yane == 1:
         var7 +=1
-        print(f"zei:{zei}, var6:{var6}")
-        #if zei > 3:
-         #   fertig()
         if var7 == 1:
             mein_dict["1"] = gramata
-            print(f"var1:{var1}")
         elif var7 == 2:
-            print(f"Var2:{var2}")
             mein_dict["2"] = gramata
         elif var7 == 3:
-            print(f"Var3:{var3}")
             mein_dict["3"] = gramata
-            finish()
     else:
         incorrect()
     incorrect()
@@ -246,8 +221,9 @@ def incorrect():
         if line23 >= len(lines) - 1:
             if var6 > 3:
                 wort_nummer += 1
-                if wort_nummer >= anzahl_wörter:
+                if wort_nummer > anzahl_wörter:
                     if line23 >= len(lines):
+                        wort_nummer -= 2
                         abfrag2()
                     else:
                         var1 = ""
@@ -255,11 +231,9 @@ def incorrect():
                         var3 = ""
                         gemeinsame_buchstaben_count()
                 else:
-                    print(f"SChei0e:{wort_nummer}, wlrte:{len(wörter)}")
                     line23 = 0
-                    gemeinsame_buchstaben_count()
+                    check
         else:
-            print(f"breaken:{breaken}")
             line23 += 1
             var6 = 0
             var1 = ""
@@ -268,26 +242,18 @@ def incorrect():
             gemeinsame_buchstaben_count()
     else:
         gramata = ""
-        print(f"var6:{var6}")
         if var6 == 1:
-            print(f"var1:{var1}")
             gramata = var1
         if var6 == 2:
-            print(f"Var2:{var2}")
             gramata = var2
         if var6 == 3:
-            print(f"Var3:{var3}")
             gramata = var3
         var6 += 1
         grammatik()
 
-
-def finish():
-    print()
-
-
-
 def fertig():
     print("Fertig")
     sys.exit()
+
+eingabe = input("Dein Text zum Korrigirern:")
 check()

@@ -1,0 +1,356 @@
+#include <FS.h>
+#include <SD.h>
+#include <WiFi.h>
+#include <WebServer.h>
+#include <SPI.h>
+
+// WiFi-Zugangsdaten
+const char* ssid = "Dein_SSID";
+const char* password = "Dein_Passwort";
+
+// SD-Karten Pin-Konfiguration
+#define SD_CS 5
+#define SD_SCK 18
+#define SD_MOSI 23
+#define SD_MISO 19
+
+// Webserver auf Port 80
+WebServer server(80);
+
+// HTML-Template mit Buttons
+const char* uploadForm = R"rawliteral(
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 NAS</title>
+</head>
+<body>
+  <h1>ESP32 NAS</h1>
+  <h2>Dateien hochladen</h2>
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="Hochladen">
+  </form>
+  <h2>Verfügbare Dateien</h2>
+  <ul>
+    {{files}}
+  </ul>
+</body>
+</html>
+)rawliteral";
+
+// Dateien auflisten mit Buttons
+String listFiles() {
+  String fileList = "";
+  File root = SD.open("/");
+  File file = root.openNextFile();
+  while (file) {
+    String fileName = file.name();
+    fileList += "<li>";
+    fileList += "<a href=\"" + fileName + "\">" + fileName + "</a>";
+    fileList += " <button onclick=\"deleteFile('" + fileName + "')\">Löschen</button>";
+    fileList += "</li>";
+    file = root.openNextFile();
+  }
+
+  // JavaScript für Löschen-Buttons
+  fileList += R"rawliteral(
+    <script>
+      function deleteFile(filename) {
+        if (confirm('Datei löschen: ' + filename + '?')) {
+          fetch('/delete?file=' + filename, { method: 'GET' })
+            .then(response => response.text())
+            .then(data => {
+              alert(data);
+              location.reload();
+            });
+        }
+      }
+    </script>
+  )rawliteral";
+
+  return fileList;
+}
+
+// HTML-Seite bereitstellen
+void handleRoot() {
+  String html = uploadForm;
+  html.replace("{{files}}", listFiles());
+  server.send(200, "text/html", html);
+}
+
+// Dateien bereitstellen
+void handleFileDownload() {
+  String path = server.uri();
+  if (SD.exists(path)) {
+    File file = SD.open(path, FILE_READ);
+
+    // Unterscheidung nach Dateityp
+    if (path.endsWith(".html")) {
+      server.streamFile(file, "text/html");
+    } else if (path.endsWith(".txt")) {
+      server.streamFile(file, "text/plain");
+    } else if (path.endsWith(".jpg") || path.endsWith(".jpeg")) {
+      server.streamFile(file, "image/jpeg");
+    } else if (path.endsWith(".png")) {
+      server.streamFile(file, "image/png");
+    } else if (path.endsWith(".css")) {
+      server.streamFile(file, "text/css");
+    } else if (path.endsWith(".js")) {
+      server.streamFile(file, "application/javascript");
+    } else {
+      server.streamFile(file, "application/octet-stream");
+    }
+    file.close();
+  } else {
+    server.send(404, "text/plain", "Datei nicht gefunden");
+  }
+}
+
+// Datei-Upload verarbeiten
+void handleFileUpload() {
+  HTTPUpload& upload = server.upload();
+  if (upload.status == UPLOAD_FILE_START) {
+    String filename = "/" + upload.filename;
+    File file = SD.open(filename, FILE_WRITE);
+    if (!file) {
+      server.send(500, "text/plain", "Fehler beim Öffnen der Datei!");
+      return;
+    }
+    file.close();
+  } else if (upload.status == UPLOAD_FILE_WRITE) {
+    String filename = "/" + upload.filename;
+    File file = SD.open(filename, FILE_APPEND);
+    if (file) {
+      file.write(upload.buf, upload.currentSize);
+      file.close();
+    }
+  } else if (upload.status == UPLOAD_FILE_END) {
+    server.send(200, "text/plain", "Datei hochgeladen!");
+  }
+}
+
+// Datei löschen
+void handleFileDelete() {
+  String fileName = server.arg("file");
+  if (SD.exists(fileName)) {
+    SD.remove(fileName);
+    server.send(200, "text/plain", "Datei gelöscht: " + fileName);
+  } else {
+    server.send(404, "text/plain", "Datei nicht gefunden: " + fileName);
+  }
+}
+
+// Setup-Funktion
+void setup() {
+  Serial.begin(115200);
+
+  // WiFi verbinden
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Verbinde mit WiFi...");
+  }
+  Serial.println("Mit WiFi verbunden!");
+
+  // SD-Karte initialisieren
+  SPI.begin(SD_SCK, SD_MISO, SD_MOSI);
+  if (!SD.begin(SD_CS)) {
+    Serial.println("SD-Karte konnte nicht initialisiert werden!");
+    return;
+  }
+  Serial.println("SD-Karte initialisiert!");
+
+  // Routen definieren
+  server.on("/", HTTP_GET, handleRoot);
+  server.onNotFound(handleFileDownload);
+  server.on("/upload", HTTP_POST, []() { server.send(200); }, handleFileUpload);
+  server.on("/delete", HTTP_GET, handleFileDelete);
+
+  // Webserver starten
+  server.begin();
+  Serial.println("Webserver gestartet!");
+}
+
+// Hauptschleife
+void loop() {
+  server.handleClient();
+}
+#include <FS.h>
+#include <SD.h>
+#include <WiFi.h>
+#include <WebServer.h>
+#include <SPI.h>
+
+// WiFi-Zugangsdaten
+const char* ssid = "Dein_SSID";
+const char* password = "Dein_Passwort";
+
+// SD-Karten Pin-Konfiguration
+#define SD_CS 5
+#define SD_SCK 18
+#define SD_MOSI 23
+#define SD_MISO 19
+
+// Webserver auf Port 80
+WebServer server(80);
+
+// HTML-Template mit Buttons
+const char* uploadForm = R"rawliteral(
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 NAS</title>
+</head>
+<body>
+  <h1>ESP32 NAS</h1>
+  <h2>Dateien hochladen</h2>
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="Hochladen">
+  </form>
+  <h2>Verfügbare Dateien</h2>
+  <ul>
+    {{files}}
+  </ul>
+</body>
+</html>
+)rawliteral";
+
+// Dateien auflisten mit Buttons
+String listFiles() {
+  String fileList = "";
+  File root = SD.open("/");
+  File file = root.openNextFile();
+  while (file) {
+    String fileName = file.name();
+    fileList += "<li>";
+    fileList += "<a href=\"" + fileName + "\">" + fileName + "</a>";
+    fileList += " <button onclick=\"deleteFile('" + fileName + "')\">Löschen</button>";
+    fileList += "</li>";
+    file = root.openNextFile();
+  }
+
+  // JavaScript für Löschen-Buttons
+  fileList += R"rawliteral(
+    <script>
+      function deleteFile(filename) {
+        if (confirm('Datei löschen: ' + filename + '?')) {
+          fetch('/delete?file=' + filename, { method: 'GET' })
+            .then(response => response.text())
+            .then(data => {
+              alert(data);
+              location.reload();
+            });
+        }
+      }
+    </script>
+  )rawliteral";
+
+  return fileList;
+}
+
+// HTML-Seite bereitstellen
+void handleRoot() {
+  String html = uploadForm;
+  html.replace("{{files}}", listFiles());
+  server.send(200, "text/html", html);
+}
+
+// Dateien bereitstellen
+void handleFileDownload() {
+  String path = server.uri();
+  if (SD.exists(path)) {
+    File file = SD.open(path, FILE_READ);
+
+    // Unterscheidung nach Dateityp
+    if (path.endsWith(".html")) {
+      server.streamFile(file, "text/html");
+    } else if (path.endsWith(".txt")) {
+      server.streamFile(file, "text/plain");
+    } else if (path.endsWith(".jpg") || path.endsWith(".jpeg")) {
+      server.streamFile(file, "image/jpeg");
+    } else if (path.endsWith(".png")) {
+      server.streamFile(file, "image/png");
+    } else if (path.endsWith(".css")) {
+      server.streamFile(file, "text/css");
+    } else if (path.endsWith(".js")) {
+      server.streamFile(file, "application/javascript");
+    } else {
+      server.streamFile(file, "application/octet-stream");
+    }
+    file.close();
+  } else {
+    server.send(404, "text/plain", "Datei nicht gefunden");
+  }
+}
+
+// Datei-Upload verarbeiten
+void handleFileUpload() {
+  HTTPUpload& upload = server.upload();
+  if (upload.status == UPLOAD_FILE_START) {
+    String filename = "/" + upload.filename;
+    File file = SD.open(filename, FILE_WRITE);
+    if (!file) {
+      server.send(500, "text/plain", "Fehler beim Öffnen der Datei!");
+      return;
+    }
+    file.close();
+  } else if (upload.status == UPLOAD_FILE_WRITE) {
+    String filename = "/" + upload.filename;
+    File file = SD.open(filename, FILE_APPEND);
+    if (file) {
+      file.write(upload.buf, upload.currentSize);
+      file.close();
+    }
+  } else if (upload.status == UPLOAD_FILE_END) {
+    server.send(200, "text/plain", "Datei hochgeladen!");
+  }
+}
+
+// Datei löschen
+void handleFileDelete() {
+  String fileName = server.arg("file");
+  if (SD.exists(fileName)) {
+    SD.remove(fileName);
+    server.send(200, "text/plain", "Datei gelöscht: " + fileName);
+  } else {
+    server.send(404, "text/plain", "Datei nicht gefunden: " + fileName);
+  }
+}
+
+// Setup-Funktion
+void setup() {
+  Serial.begin(115200);
+
+  // WiFi verbinden
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Verbinde mit WiFi...");
+  }
+  Serial.println("Mit WiFi verbunden!");
+
+  // SD-Karte initialisieren
+  SPI.begin(SD_SCK, SD_MISO, SD_MOSI);
+  if (!SD.begin(SD_CS)) {
+    Serial.println("SD-Karte konnte nicht initialisiert werden!");
+    return;
+  }
+  Serial.println("SD-Karte initialisiert!");
+
+  // Routen definieren
+  server.on("/", HTTP_GET, handleRoot);
+  server.onNotFound(handleFileDownload);
+  server.on("/upload", HTTP_POST, []() { server.send(200); }, handleFileUpload);
+  server.on("/delete", HTTP_GET, handleFileDelete);
+
+  // Webserver starten
+  server.begin();
+  Serial.println("Webserver gestartet!");
+}
+
+// Hauptschleife
+void loop() {
+  server.handleClient();
+}

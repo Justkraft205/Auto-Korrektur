@@ -40,7 +40,6 @@ def check():
         line23 += 1
 
 def vorcheck():
-    print(f"wort gefunden")
     check()
 
 def gemeinsame_buchstaben_count():
@@ -118,7 +117,6 @@ def abfrag2():
     global eingabe, wort23, var1, var2, var3, var4, wort_nummer, mein_dict, var7
     var4 = 0
     string1 = ""
-    print(f"wortnummrt:{wort_nummer}")
     print(f"Falsch Geschribenes Wort ist:{wort23}")
     print(f"Ersatz Wörter:{mein_dict}")
     print("Welches wollen sie wählen. 4 ist üebrspringen:")
